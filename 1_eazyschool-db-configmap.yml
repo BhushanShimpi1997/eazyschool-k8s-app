@@ -6,8 +6,7 @@ metadata:
  labels:
   storage: eazyschool-db-storage
 data:
- DB_DRIVER_NAME_VALUE: com.mysql.cj.jdbc.Driver
- DB_HOST_SERVICE_NAME_VALUE: eazyschool-db-service
+ DB_HOST_SERVICE_NAME_VALUE: eazyschool-app-db-service
  DB_SCHEMA_VALUE: eazyschool
- DB_PORT: "3306" 
+ DB_PORT: "3306"
 ...
