@@ -19,11 +19,6 @@ spec:
      ports:
      - containerPort: 8080
      env:
-      - name: DB_DRIVER_CLASS
-        valueFrom:
-         configMapKeyRef:
-          name: eazyschool-db-config-map
-          key: DB_DRIVER_NAME_VALUE
       - name: DB_HOST
         valueFrom:
          configMapKeyRef: 
