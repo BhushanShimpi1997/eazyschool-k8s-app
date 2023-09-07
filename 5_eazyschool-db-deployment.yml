@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+ name: eazyschool-app-db-deployment
+ labels:
+  app: eazyschool-app-db
+spec:
+ replicas: 1
+ selector: 
+  matchLabels:
+   app: eazyschool-app-db-pod
+ template:
+  metadata:
+   labels:
+    app: eazyschool-app-db-pod
+  spec:
+   volumes:
+   - name: eazyschool-app-db-volume
+     persistentVolumeClaim:
+      claimName: eazyschool-db-pvc
+   containers:
+    - name: eazyschool-app-db
+      image: mysql 
+      ports:
+      - containerPort: 3306
+      volumeMounts:
+      - name: eazyschool-app-db-volume
+        mountPath: /opt/mysql
+      env:
+      - name: MYSQL_ROOT_PASSOWORD
+        valueFrom:
+         secretKeyRef:
+         name: eazyschool-db-config-secret
+         key: DB_PASSWORD_VALUE
+      - name: MYSQL_DATABASE
+        valueFrom:
+         configMapKeyRef:
+         name: eazyschool-db-config-map
+         key: DB_SCHEMA_VALUE
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: eazyschool-app-db-service
+ labels:
+  app: eazyschool-app-db-service
+spec:
+ type: ClusterIP
+ selector: 
+  app: eazyschool-app-db-pod
+ ports:
+ - port: 3306
+   targetPort: 3306
+   protocol: TCP
+...
