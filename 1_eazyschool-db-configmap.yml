@@ -10,3 +10,4 @@ data:
  DB_SCHEMA_VALUE: eazyschool
  DB_PORT: "3306"
 ...
+
