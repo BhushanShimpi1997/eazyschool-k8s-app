@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: eazyschool-k8s-app 
+ name: eazyschool-k8s-app
 spec:
  replicas: 2
- selector: 
+ selector:
   matchLabels:
-   app: eazyschool-k8s-app 
+   app: eazyschool-k8s-app
  template:
   metadata:
    labels:
-    app: eazyschool-k8s-app 
+    app: eazyschool-k8s-app
   spec:
    containers:
    - name: eazyschool-k8s-app
@@ -19,38 +19,37 @@ spec:
      ports:
      - containerPort: 8080
      env:
-      - name: DB_HOST
-        valueFrom:
-         configMapKeyRef: 
-          name: eazyschool-db-config-map
-          key:  DB_HOST_SERVICE_NAME_VALUE 
-      - name: DB_NAME
-        valueFrom:
-         configMapKeyRef:
-          name: eazyschool-db-config-map
-          key: DB_SCHEMA_VALUE
-      - name: DB_USERNAME
-        valueFrom:
-         secretKeyRef:
-          name: eazyschool-db-config-secret
-          key: DB_USER_NAME_VALUE
-      - name: DB_PASSWORD
-        valueFrom:
-         secretKeyRef:
-          name: eazyschool-db-config-secret
-          key: DB_PASSWORD_VALUE
+       - name: DB_HOST
+         valueFrom:
+          configMapKeyRef:
+           name: eazyschool-db-config-map
+           key:  DB_HOST_SERVICE_NAME_VALUE
+       - name: DB_NAME
+         valueFrom:
+          configMapKeyRef:
+           name: eazyschool-db-config-map
+           key: DB_SCHEMA_VALUE
+       - name: DB_USERNAME
+         valueFrom:
+          secretKeyRef:
+           name: eazyschool-db-config-secret
+           key: DB_USER_NAME_VALUE
+       - name: DB_PASSWORD
+         valueFrom:
+          secretKeyRef:
+           name: eazyschool-db-config-secret
+           key: DB_PASSWORD_VALUE
 ---
 apiVersion: v1
 kind: Service
 metadata:
  name: eazyschool-app-svc
 spec:
- type: NodePort
+ type: LoadBalancer
  selector:
   app: eazyschool-k8s-app
  ports:
  - port: 80
    targetPort: 8080
-   nodePort: 30785
    protocol: "TCP"
 ...
