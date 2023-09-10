@@ -1,13 +1,13 @@
 ---
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
  name: eazyschool-app-db-deployment
  labels:
   app: eazyschool-app-db
 spec:
  replicas: 1
- selector: 
+ selector:
   matchLabels:
    app: eazyschool-app-db-pod
  template:
@@ -21,23 +21,23 @@ spec:
       claimName: eazyschool-db-pvc
    containers:
     - name: eazyschool-app-db
-      image: mysql 
+      image: mysql
       ports:
       - containerPort: 3306
       volumeMounts:
       - name: eazyschool-app-db-volume
         mountPath: /opt/mysql
       env:
-      - name: MYSQL_ROOT_PASSWORD
-        valueFrom:
-         secretKeyRef:
-         name: eazyschool-db-config-secret
-         key: DB_PASSWORD_VALUE
-      - name: MYSQL_DATABASE
-        valueFrom:
-         configMapKeyRef:
-         name: eazyschool-db-config-map
-         key: DB_SCHEMA_VALUE
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+           secretKeyRef:
+            name: eazyschool-db-config-secret
+            key: DB_PASSWORD_VALUE
+        - name: MYSQL_DATABASE
+          valueFrom:
+           configMapKeyRef:
+            name: eazyschool-db-config-map
+            key: DB_SCHEMA_VALUE
 ---
 apiVersion: v1
 kind: Service
@@ -47,7 +47,7 @@ metadata:
   app: eazyschool-app-db-service
 spec:
  type: ClusterIP
- selector: 
+ selector:
   app: eazyschool-app-db-pod
  ports:
  - port: 3306
