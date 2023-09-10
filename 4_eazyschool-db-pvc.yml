@@ -3,9 +3,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
  name: eazyschool-db-pvc
-spec: 
+spec:
  volumeName: eazyschool-db-pv
- accessModes: 
+ accessModes:
  - ReadWriteOnce
  storageClassName: local-storage
  resources:
